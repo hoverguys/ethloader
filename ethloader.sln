@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ethloader", "ethloader.vcxproj", "{1B0DA01C-2F40-4DD4-89B3-7C29B27E35EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Gamecube|Win32 = Gamecube|Win32
+		Wii|Win32 = Wii|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B0DA01C-2F40-4DD4-89B3-7C29B27E35EB}.Gamecube|Win32.ActiveCfg = Gamecube|Win32
+		{1B0DA01C-2F40-4DD4-89B3-7C29B27E35EB}.Gamecube|Win32.Build.0 = Gamecube|Win32
+		{1B0DA01C-2F40-4DD4-89B3-7C29B27E35EB}.Wii|Win32.ActiveCfg = Wii|Win32
+		{1B0DA01C-2F40-4DD4-89B3-7C29B27E35EB}.Wii|Win32.Build.0 = Wii|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
