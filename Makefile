@@ -31,15 +31,15 @@ TEXTURES	:=	textures
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS		= -g -Ofast -Wall -Winline -Wextra -ffast-math -mpaired -mmultiple $(MACHDEP) $(INCLUDE)
+CFLAGS		= -g -Os -Wall -Winline -Wextra $(MACHDEP) $(INCLUDE)
 CXXFLAGS	= $(CFLAGS)
 
-LDFLAGS		= -g $(MACHDEP) -Wl,-Map,$(notdir $@).map -mpaired -ldb
+LDFLAGS		= -g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-logc -lm
+LIBS	:=	-ldb -lbba -logc -lasnd
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

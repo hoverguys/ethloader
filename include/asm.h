@@ -1,6 +1,7 @@
 #ifndef __ASM_H__
 #define __ASM_H__
 
+#ifdef _LANGUAGE_ASSEMBLY
 /* Condition Register Bit Fields */
 
 #define	cr0	0
@@ -188,7 +189,7 @@
 
 #define	STATE_OFFSET 204
 #define MODE_OFFSET	 206
-
+	 
 #define FPR0_OFFSET	208
 #define FPR1_OFFSET 216
 #define FPR2_OFFSET 224
@@ -264,43 +265,26 @@
 #define EXCEPTION_FRAME_END 728
 
 #define	IBAT0U		528
-#define	IBAT0L		529
-#define	IBAT1U		530
-#define	IBAT1L		531
-#define	IBAT2U		532
-#define	IBAT2L		533
-#define	IBAT3U		534
-#define	IBAT3L		535
-#define	IBAT4U		560
-#define	IBAT4L		561
-#define	IBAT5U		562
-#define	IBAT5L		563
-#define	IBAT6U		564
-#define	IBAT6L		565
-#define	IBAT7U		566
-#define	IBAT7L		567
+#define	IBAT0L		529	
+#define	IBAT1U		530	
+#define	IBAT1L		531	
+#define	IBAT2U		532	
+#define	IBAT2L		533	
+#define	IBAT3U		534	
+#define	IBAT3L		535	
 
 #define	DBAT0U		536
-#define	DBAT0L		537
-#define	DBAT1U		538
-#define	DBAT1L		539
-#define	DBAT2U		540
-#define	DBAT2L		541
-#define	DBAT3U		542
+#define	DBAT0L		537	
+#define	DBAT1U		538	
+#define	DBAT1L		538	
+#define	DBAT2U		540	
+#define	DBAT2L		541	
+#define	DBAT3U		542	
 #define	DBAT3L		543
-#define DBAT4U		568
-#define DBAT4L		569
-#define DBAT5U		570
-#define DBAT5L		571
-#define DBAT6U		572
-#define DBAT6L		573
-#define DBAT7U		574
-#define DBAT7L		575
 
 #define HID0		1008
 #define HID1		1009
-#define HID2		920
-#define HID4		1011
+#define HID2		920	
 
 #define GQR0		912
 #define GQR1		913
@@ -313,10 +297,10 @@
 
 #define L2CR		1017
 
-#define WPAR		921
-
 #define DMAU		922
 #define DMAL		923
+
+#endif		//_LANGUAGE_ASSEMBLY
 
 #define MSR_RI				0x00000002
 #define MSR_DR				0x00000010
@@ -328,8 +312,6 @@
 #define MSR_POW				0x00004000
 #define MSR_EE				0x00008000
 
-#define PPC_ALIGNMENT		8
-
-#define PPC_CACHE_ALIGNMENT	32
+#define PPC_ALIGNMENT		4
 
 #endif		//__ASM_H__
