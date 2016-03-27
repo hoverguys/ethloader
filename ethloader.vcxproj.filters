@@ -14,10 +14,10 @@
     <ClCompile Include="src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dol.c">
+    <ClCompile Include="src\sidestep.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\elf.c">
+    <ClCompile Include="src\ssaram.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,16 +29,16 @@
     <ClInclude Include="include\asm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\dol.h">
+    <ClInclude Include="include\patcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\elf.h">
+    <ClInclude Include="include\reservedarea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\elf_abi.h">
+    <ClInclude Include="include\sidestep.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\processor.h">
+    <ClInclude Include="include\ssaram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

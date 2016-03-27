@@ -15,16 +15,12 @@ static GXRModeObj *rmode;
 
 void initialise();
 
-// Loader
-
-
 // Network
 s32 sock, csock;
 int ret;
 u32	clientlen;
 struct sockaddr_in client;
 struct sockaddr_in server;
-uint datalength;
 
 int main() {
 	// Data
@@ -87,29 +83,58 @@ int main() {
 		}
 
 		// Zero data length
+		uint datalength, buffersize;
 		memset(&datalength, 0, sizeof(datalength));
+		memset(&buffersize, 0, sizeof(buffersize));
 
 		// Read datalength
 		ret = net_recv(csock, &datalength, sizeof(datalength), 0);
+		printf("Incoming file of %u bytes\n", datalength);
+
+		// Read buffersize
+		ret = net_recv(csock, &buffersize, sizeof(buffersize), 0);
+		printf("Using buffer size of %u bytes\n", buffersize);
 
 		// Create buffer to store payload in
 		payload = memalign(32, datalength);
 
+		printf("Downloading");
+		VIDEO_WaitVSync();
+
 		// Recieve payload
 		u32 readtotal = 0;
+		u32 ack = 0xdeadbeef;
 		while (readtotal < datalength) {
-			ret = net_read(csock, payload + readtotal, datalength - readtotal);
-			readtotal += ret;
-			printf("\e[1;1H\e[2J");
-			printf("%f%%\n", (readtotal /(float)datalength) * 100.0f);
-		}
-		printf("Download complete\n");
+			// Read a part of the file
+			ret = net_read(csock, payload + readtotal, buffersize);
+			if (ret < 0) {
+				printf("\nEOF\n");
+				VIDEO_WaitVSync();
+				break;
+			}
 
-		// Close connection
+			readtotal += ret;
+
+			// Notify progress
+			printf("\33[2K\r");
+			printf("%d%%", (int)((readtotal /(float)datalength) * 100.0f));
+
+			// Tell the server we got the packet
+			net_write(csock, &ack, sizeof(ack));
+		}
+		printf("\nDownload complete\n");
+
+		// Cleanup
 		net_close(csock);
+		DCFlushRange(payload, datalength);
+		VIDEO_WaitVSync();
+
+		printf("Starting DOL\n");
 
 		// Run
-		DOLtoARAM(payload, 0, NULL);
+		s32 res = DOLtoARAM(payload, 0, NULL);
+
+		printf("Error %d\n", res);
 	}
 
 	return 0;

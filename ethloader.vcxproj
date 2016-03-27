@@ -38,9 +38,9 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\dol.c" />
-    <ClCompile Include="src\elf.c" />
     <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\sidestep.c" />
+    <ClCompile Include="src\ssaram.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -48,10 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\asm.h" />
-    <ClInclude Include="include\dol.h" />
-    <ClInclude Include="include\elf.h" />
-    <ClInclude Include="include\elf_abi.h" />
-    <ClInclude Include="include\processor.h" />
+    <ClInclude Include="include\patcher.h" />
+    <ClInclude Include="include\reservedarea.h" />
+    <ClInclude Include="include\sidestep.h" />
+    <ClInclude Include="include\ssaram.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
