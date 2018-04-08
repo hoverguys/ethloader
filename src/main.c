@@ -38,15 +38,12 @@ struct sockaddr_in client;
 struct sockaddr_in server;
 struct sockaddr_in broadcast;
 
-char probetxt[PROBELEN + 16] = {'\0'};
-int probelen = 0;
+// Data
+char localip[16] = {0};
+char gateway[16] = {0};
+char netmask[16] = {0};
 
 int main() {
-	// Data
-	char localip[16] = {0};
-	char gateway[16] = {0};
-	char netmask[16] = {0};
-
 	// Initialize
 	initialise();
 
@@ -73,11 +70,6 @@ int main() {
 	}
 	printf("Network configured, ip: %s, gw: %s, mask %s\n", localip, gateway, netmask);
 	printf("Now listening on port %d\n", DATA_PORT);
-
-	// Fill probe string
-	strncat(probetxt, PROBE, PROBELEN);
-	strncat(probetxt, localip, strlen(localip));
-	probelen = PROBELEN + strlen(localip);
 
 	// Load over network
 	clientlen = sizeof(client);
@@ -169,14 +161,19 @@ bool setup_udp_sd() {
 		return false;
 	}
 
+	// Set it for binding
 	broadcast.sin_family = AF_INET;
-	broadcast.sin_port = htons(SD_PORT);
-	broadcast.sin_addr.s_addr = inet_addr(SD_MULTICAST_ADDR);
+	broadcast.sin_port = htons(DATA_PORT);
+	broadcast.sin_addr.s_addr = inet_addr(localip);
 	s32 ret = net_bind(sdsock, (struct sockaddr*)&broadcast, sizeof(broadcast));
 	if (ret) {
 		printf("DISCOVERY: Error binding socket: %s (%ld)\n", strerror(ret), ret);
 		return false;
 	}
+
+	// Change address for when we're going to use it to broadcast the probe
+	broadcast.sin_addr.s_addr = inet_addr(SD_MULTICAST_ADDR);
+	broadcast.sin_port = htons(SD_PORT);
 
 	return true;
 }
@@ -250,7 +247,7 @@ void handlePayload() {
 }
 
 void handleDiscovery() {
-	s32 ret = net_sendto(sdsock, probetxt, probelen, 0, (struct sockaddr*)&broadcast, sizeof(broadcast));
+	s32 ret = net_sendto(sdsock, PROBE, PROBELEN, 0, (struct sockaddr*)&broadcast, sizeof(broadcast));
 	if (ret < 0) {
 		printf("Error sending probe: %s (%ld)\n", strerror(-ret), -ret);
 	}
