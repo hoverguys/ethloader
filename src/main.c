@@ -99,7 +99,12 @@ int main() {
 
 	fd_set sockets; // Just one, really..
 	struct timeval timeout;
-	while (1) {
+	while (true) {
+		// Send a discovery probe (if discovery is ok) then wait for connection
+		if (sdok) {
+			handleDiscovery();
+		}
+
 		// Setup sockets
 		FD_ZERO(&sockets);
 		FD_SET(ssock, &sockets);
@@ -116,10 +121,7 @@ int main() {
 			break;
 		}
 		if (ret == 0) {
-			// Timeout'd, send a discovery probe (if discovery is ok) and try again
-			if (sdok) {
-				handleDiscovery();
-			}
+			// Timeout'd
 			continue;
 		}
 
