@@ -193,19 +193,11 @@ void handlePayload() {
 	memset(&buffersize, 0, sizeof(buffersize));
 
 	// Read datalength
-	s32 ret = net_recv(csock, &datalength, sizeof(datalength), 0);
-	if (ret) {
-		printf("DATA: Error receiving data length: %s (%ld)\n", strerror(ret), ret);
-		return;
-	}
+	net_recv(csock, &datalength, sizeof(datalength), 0);
 	printf("Incoming file of %u bytes\n", datalength);
 
 	// Read buffersize
-	ret = net_recv(csock, &buffersize, sizeof(buffersize), 0);
-	if (ret) {
-		printf("DATA: Error receiving buffer size: %s (%ld)\n", strerror(ret), ret);
-		return;
-	}
+	net_recv(csock, &buffersize, sizeof(buffersize), 0);
 	printf("Using buffer size of %u bytes\n", buffersize);
 
 	// Create buffer to store payload in
@@ -219,11 +211,7 @@ void handlePayload() {
 	u32 ack = 0xdeadbeef;
 	while (readtotal < datalength) {
 		// Read a part of the file
-		ret = net_read(csock, payload + readtotal, buffersize);
-		if (ret > 0) {
-			printf("DATA: Error receiving blob: %s (%ld)\n", strerror(ret), ret);
-			return;
-		}
+		s32 ret = net_read(csock, payload + readtotal, buffersize);
 		if (ret < 0) {
 			printf("\nEOF\n");
 			VIDEO_WaitVSync();
