@@ -15,7 +15,7 @@
 
 #define TIMEOUT 2 // 2 seconds between probes
 
-#define PROBE "\1BBA"
+#define PROBE "BBA\1"
 #define PROBELEN 4
 
 static void* xfb = NULL;
@@ -36,6 +36,9 @@ u32 clientlen;
 struct sockaddr_in client;
 struct sockaddr_in server;
 struct sockaddr_in broadcast;
+
+char probetxt[PROBELEN + 16] = {'\0'};
+int probelen = 0;
 
 int main() {
 	// Data
@@ -69,6 +72,11 @@ int main() {
 	}
 	printf("Network configured, ip: %s, gw: %s, mask %s\n", localip, gateway, netmask);
 	printf("Now listening on port %d\n", DATA_PORT);
+
+	// Fill probe string
+	strncat(probetxt, PROBE, PROBELEN);
+	strncat(probetxt, localip, strlen(localip));
+	probelen = PROBELEN + strlen(localip);
 
 	// Load over network
 	clientlen = sizeof(client);
@@ -252,7 +260,7 @@ void handlePayload() {
 }
 
 void handleDiscovery() {
-	s32 ret = net_sendto(sdsock, PROBE, PROBELEN, 0, (struct sockaddr*)&broadcast, sizeof(broadcast));
+	s32 ret = net_sendto(sdsock, probetxt, probelen, 0, (struct sockaddr*)&broadcast, sizeof(broadcast));
 	if (ret < 0) {
 		printf("Error sending probe: %s (%ld)\n", strerror(-ret), -ret);
 	}
