@@ -1,32 +1,32 @@
+#include <debug.h>
+#include <errno.h>
+#include <gccore.h>
+#include <malloc.h>
+#include <network.h>
+#include <ogcsys.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <malloc.h>
-#include <ogcsys.h>
-#include <gccore.h>
-#include <network.h>
-#include <debug.h>
-#include <errno.h>
 
 #include "sidestep.h"
 
-static void *xfb = NULL;
-static GXRModeObj *rmode;
+static void* xfb = NULL;
+static GXRModeObj* rmode;
 
 void initialise();
 
 // Network
 s32 sock, csock;
 int ret;
-u32	clientlen;
+u32 clientlen;
 struct sockaddr_in client;
 struct sockaddr_in server;
 
 int main() {
 	// Data
-	char localip[16] = { 0 };
-	char gateway[16] = { 0 };
-	char netmask[16] = { 0 };
+	char localip[16] = {0};
+	char gateway[16] = {0};
+	char netmask[16] = {0};
 
 	// Loader
 	u8* payload;
@@ -62,23 +62,23 @@ int main() {
 	server.sin_family = AF_INET;
 	server.sin_port = htons(8856);
 	server.sin_addr.s_addr = INADDR_ANY;
-	s32 ret = net_bind(sock, (struct sockaddr *) &server, sizeof(server));
+	s32 ret = net_bind(sock, (struct sockaddr*)&server, sizeof(server));
 
 	if (ret) {
-		printf("Error %d binding socket!\n", ret);
+		printf("Error %ld binding socket!\n", ret);
 		return 1;
 	}
 
 	if ((ret = net_listen(sock, 5))) {
-		printf("Error %d listening!\n", ret);
+		printf("Error %ld listening!\n", ret);
 		return 1;
 	}
 
 	while (1) {
-		csock = net_accept(sock, (struct sockaddr *) &client, &clientlen);
+		csock = net_accept(sock, (struct sockaddr*)&client, &clientlen);
 
 		if (csock < 0) {
-			printf("Error connecting socket %d!\n", csock);
+			printf("Error connecting socket %ld!\n", csock);
 			continue;
 		}
 
@@ -117,7 +117,7 @@ int main() {
 
 			// Notify progress
 			printf("\33[2K\r");
-			printf("%d%%", (int)((readtotal /(float)datalength) * 100.0f));
+			printf("%d%%", (int)((readtotal / (float)datalength) * 100.0f));
 
 			// Tell the server we got the packet
 			net_write(csock, &ack, sizeof(ack));
@@ -134,7 +134,7 @@ int main() {
 		// Run
 		s32 res = DOLtoARAM(payload, 0, NULL);
 
-		printf("Error %d\n", res);
+		printf("Error %ld\n", res);
 	}
 
 	return 0;
@@ -161,8 +161,9 @@ void initialise() {
 	VIDEO_SetBlack(FALSE);
 	VIDEO_Flush();
 	VIDEO_WaitVSync();
-	if (rmode->viTVMode & VI_NON_INTERLACE)
+	if (rmode->viTVMode & VI_NON_INTERLACE) {
 		VIDEO_WaitVSync();
+	}
 
 	// Console
 	CON_InitEx(rmode, 20, 30, rmode->fbWidth - 40, rmode->xfbHeight - 60);
