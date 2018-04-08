@@ -35,6 +35,17 @@ int main() {
 	initialise();
 
 	printf("\nethloader by zeroZshadow\n");
+
+	// Check if BBA is present
+	// Code from swiss-gc: https://github.com/emukidid/swiss-gc/blob/master/cube/swiss/source/exi.c
+	u32 devid = 0;
+	EXI_GetID(EXI_CHANNEL_0, EXI_DEVICE_2, &devid);
+	if (devid != 0x04020200) {
+		printf("\nBBA not found! Please make sure it's properly connected to the SP1 slot.\n");
+		VIDEO_WaitVSync();
+		return 1;
+	}
+
 	printf("Configuring network, please wait ...\n");
 
 	// Configure the network interface
