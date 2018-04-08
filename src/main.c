@@ -12,6 +12,7 @@
 
 #define DATA_PORT 8856
 #define SD_PORT 8890
+#define SD_MULTICAST_ADDR "234.1.9.14" // September 14, 2001 :P
 
 #define TIMEOUT 2 // 2 seconds between probes
 
@@ -160,17 +161,10 @@ bool setup_udp_sd() {
 		return false;
 	}
 
-	int unneeded = 1;
-	s32 ret = net_setsockopt(sdsock, SOL_SOCKET, SO_BROADCAST, &unneeded, sizeof(unneeded));
-	if (ret) {
-		printf("DISCOVERY: Could not get BROADCAST permissions\n");
-		return false;
-	}
-
 	broadcast.sin_family = AF_INET;
 	broadcast.sin_port = htons(SD_PORT);
-	broadcast.sin_addr.s_addr = htonl(INADDR_BROADCAST);
-	ret = net_bind(sdsock, (struct sockaddr*)&broadcast, sizeof(broadcast));
+	broadcast.sin_addr.s_addr = inet_addr(SD_MULTICAST_ADDR);
+	s32 ret = net_bind(sdsock, (struct sockaddr*)&broadcast, sizeof(broadcast));
 	if (ret) {
 		printf("DISCOVERY: Error binding socket: %s (%ld)\n", strerror(ret), ret);
 		return false;
