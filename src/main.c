@@ -47,7 +47,7 @@ int main() {
 	// Initialize
 	initialise();
 
-	printf("\nethloader by zeroZshadow\n");
+	printf("\nethloader by hoverguys\n");
 
 	// Check if BBA is present
 	// Code from swiss-gc: https://github.com/emukidid/swiss-gc/blob/master/cube/swiss/source/exi.c
