@@ -153,6 +153,12 @@ bool setup_tcp_data() {
 		return false;
 	}
 
+	ret = net_listen(ssock, 5);
+	if (ret) {
+		printf("DATA: Error listening: %s (%ld)\n", strerror(ret), ret);
+		return false;
+	}
+
 	return true;
 }
 
