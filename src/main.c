@@ -52,6 +52,7 @@ int main() {
 	ret = if_config(localip, netmask, gateway, TRUE, 30);
 	if (ret < 0) {
 		printf("network configuration failed!\n");
+		VIDEO_WaitVSync();
 		return 1;
 	}
 	printf("network configured, ip: %s, gw: %s, mask %s\n", localip, gateway, netmask);
@@ -64,6 +65,7 @@ int main() {
 
 	if (sock == INVALID_SOCKET) {
 		printf("Cannot create a socket!\n");
+		VIDEO_WaitVSync();
 		return 1;
 	}
 
@@ -77,11 +79,13 @@ int main() {
 
 	if (ret) {
 		printf("Error %ld binding socket!\n", ret);
+		VIDEO_WaitVSync();
 		return 1;
 	}
 
 	if ((ret = net_listen(sock, 5))) {
 		printf("Error %ld listening!\n", ret);
+		VIDEO_WaitVSync();
 		return 1;
 	}
 
@@ -90,6 +94,7 @@ int main() {
 
 		if (csock < 0) {
 			printf("Error connecting socket %ld!\n", csock);
+			VIDEO_WaitVSync();
 			continue;
 		}
 
@@ -146,6 +151,7 @@ int main() {
 		s32 res = DOLtoARAM(payload, 0, NULL);
 
 		printf("Error %ld\n", res);
+		VIDEO_WaitVSync();
 	}
 
 	return 0;
