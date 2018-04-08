@@ -12,7 +12,7 @@
 
 #define DATA_PORT 8856
 #define SD_PORT 8890
-#define SD_MULTICAST_ADDR "234.1.9.14" // September 14, 2001 :P
+#define SD_MULTICAST_ADDR "239.1.9.14" // September 14, 2001 :P
 
 #define TIMEOUT 2 // 2 seconds between probes
 
